@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ["alignnone size-full wp-image-12"],
+    domains: ["localhost"],
   },
 };

@@ -1,29 +1,59 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { GetServerSideProps, GetStaticProps, NextPage } from "next";
 import Layout from "../components/Layout";
+import Product from "../components/Product";
 import { getProducts } from "../utils/WoocomerceApi";
 
-const Home: NextPage = ({ data }: any) => {
+import { Container, ProductsCarts } from "../styles/Home";
+
+interface IImage {
+  id: number;
+  src: string;
+  name: string;
+}
+
+export interface IProduct {
+  id: number;
+  name: string;
+  images: IImage[];
+  price: string;
+  description?: string;
+}
+
+export interface IProducts {
+  products: IProduct[];
+}
+
+const Home: NextPage<IProducts> = ({ products }) => {
   return (
     <Layout>
-      <div>{JSON.stringify(data, null, 4)}</div>
+      {products.length && (
+        <>
+          <ProductsCarts>
+            {products.map((item: any) => {
+              return (
+                <div key={item.id}>
+                  <Product product={item} />
+                </div>
+              );
+            })}
+          </ProductsCarts>
 
-      {data.map((item: any) => {
-        return <div key={item.id}>{item.name}</div>;
-      })}
-
-      <button type="button">Products</button>
+          <div>{JSON.stringify(products)}</div>
+        </>
+      )}
     </Layout>
   );
 };
 
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async (ctx) => {
   const { data } = await getProducts();
 
   return {
     props: {
-      data,
+      products: data,
+      revalidate: 60,
     },
   };
 };
