@@ -42,9 +42,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="en">
-        <Head>
-          <link rel="icon" href="favicon.png" />
-        </Head>
+        <Head></Head>
 
         <body>
           <Main />

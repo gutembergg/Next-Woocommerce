@@ -17,6 +17,7 @@ export interface IProduct {
   images: IImage[];
   price: string;
   description?: string;
+  slug?: string;
 }
 
 export interface IProducts {

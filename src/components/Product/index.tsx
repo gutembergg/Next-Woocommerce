@@ -31,6 +31,12 @@ const Product = ({ product }: Props) => {
             )}
 
             <div>Price: {product.price}</div>
+            <Link
+              href={`/product/${product.slug}-${String(product.id)}`}
+              passHref
+            >
+              <button type="button">View</button>
+            </Link>
           </div>
         </Card>
       )}
