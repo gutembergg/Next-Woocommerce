@@ -25,10 +25,11 @@ const ProductDetail: NextPage<Props> = ({ product }) => {
               />
             </ImageBox>
             <Infos>
-              <h2>Slug: {product.slug}</h2>
               <h2>{product.name}</h2>
               <h2>Prix: {product.price}</h2>
             </Infos>
+
+            <button type="button">Acheter</button>
           </Card>
         </Container>
       )}

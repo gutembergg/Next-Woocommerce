@@ -1,27 +1,58 @@
-import { createContext, ReactNode, useState } from "react";
-import { IProduct, IProducts } from "../../pages";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { IProduct } from "../../pages";
 
 interface DataContext {
-  products: IProduct[];
-  setProduct: (product: IProduct) => void;
+  cart: Cart;
+  addProductInCart: (cart: Cart) => void;
 }
 
 interface IChildren {
   children: ReactNode;
 }
 
+export interface ProductCart {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  qty: number;
+  totalPrice?: number;
+}
+
+export interface Cart {
+  products: ProductCart[];
+  totalProductsCount: number;
+  totalProductsPrice: number;
+}
+
 export const ProductContext = createContext<DataContext>({} as DataContext);
 
-export const AppProvider = ({ children }: IChildren) => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+const AppProvider = ({ children }: IChildren) => {
+  const [cart, setCart] = useState<Cart>({} as Cart);
 
-  const setProduct = (product: IProduct) => {
-    setProducts([...products, product]);
+  useEffect(() => {
+    const cartData = localStorage.getItem("woo-next-cart");
+
+    if (cartData) {
+      const cartJson = JSON.parse(cartData);
+
+      console.log("cartJson", cartJson);
+
+      setCart(cartJson);
+    }
+  }, []);
+
+  const addProductInCart = (_cart: Cart) => {
+    setCart(_cart);
   };
 
+  console.log("cartData: ", cart);
+
   return (
-    <ProductContext.Provider
-      value={{ products, setProduct }}
-    ></ProductContext.Provider>
+    <ProductContext.Provider value={{ cart, addProductInCart }}>
+      {children}
+    </ProductContext.Provider>
   );
 };
+
+export default AppProvider;

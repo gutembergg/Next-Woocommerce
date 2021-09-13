@@ -1,5 +1,5 @@
-import { NextPage } from "next";
 import { ReactNode } from "react";
+import AppProvider from "../Contex/ProductContex";
 import Footer from "../Footer";
 import Header from "../Header";
 
@@ -9,19 +9,21 @@ interface IProps {
   children: ReactNode;
 }
 
-const Layout: NextPage<IProps> = ({ children }) => {
+const Layout = ({ children }: IProps) => {
   return (
-    <Container>
-      <HeaderStyle>
-        <Header />
-      </HeaderStyle>
+    <AppProvider>
+      <Container>
+        <HeaderStyle>
+          <Header />
+        </HeaderStyle>
 
-      <main>{children}</main>
+        <main>{children}</main>
 
-      <FooterStyle>
-        <Footer />
-      </FooterStyle>
-    </Container>
+        <FooterStyle>
+          <Footer />
+        </FooterStyle>
+      </Container>
+    </AppProvider>
   );
 };
 
